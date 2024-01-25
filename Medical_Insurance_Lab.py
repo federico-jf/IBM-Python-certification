@@ -1,9 +1,9 @@
-Medical Insurance Lab
-1/24/2024
-Federico Ferrero 
+# Medical Insurance Lab
+# 1/24/2024
+# Federico Ferrero 
 
 
-# IMPORT THE DATASET 
+#      IMPORT THE DATASET 
 # Import libraries 
 import pandas as pd 
 import matplotlib.pyplot as plt 
