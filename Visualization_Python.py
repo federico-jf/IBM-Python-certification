@@ -329,4 +329,23 @@ years = list(map(str,range(1980, 2014)
 #group countries by continent and apply a sum
 df_continents = df_can.groupby('Continent', axis=0).sum()
 
+#plot
+df_continents['Total'].plot(kind='pie',
+                            figsize=(5,6),
+                           autopct='%1.1f%%', 
+                           startangle=90,
+                          labels=None,
+                            pctdistance=1.12,
+                           shadow=True,
+                           )
+
+plt.title('Immigration to Canada by Contnent from 10980 to 2013')
+plt.axis('equal')
+plt.legend(labels=+df_continents.index, loc='upper left', fontsize=7)
+
+plt.show()
              
+
+######## BOXPLOT
+########
+########
