@@ -292,4 +292,41 @@ plt.show()
 
 
 # barh is to generate horizontal bar charts
+
+######## PIE CHART
+########
+########
+
+import numpy as np
+import pandas as pd
+
+
+#import matplotlib
+#we are using the inline backend
+%matplotlib line
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+mpl.style.use('ggplot') # for ggplot-like style
+
+#Open the file
+df_can = pd.read_excel(
+  'https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-DV0101EN-SkillsNetwork/Data%20Files/Canada.xlsx',
+  sheet_name='Canada by Citizenship',
+  skiprows=range(20),
+  skipfooter=2)
+
+df_can.head
+
+print(df_can.shape)
+
+#set Country as the index to plot charts easily, by referring to the country names as index values
+df_can.set_index('Country', inplace=True)
+
+#create a list of years from 1980- 2013
+years = list(map(str,range(1980, 2014)
+
+#group countries by continent and apply a sum
+df_continents = df_can.groupby('Continent', axis=0).sum()
+
              
