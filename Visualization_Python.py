@@ -289,3 +289,7 @@ plt.annotate('2008-2011 Financial Crisis',
              va='bottim',
              ha='left,)
 plt.show()
+
+
+# barh is to generate horizontal bar charts
+             
