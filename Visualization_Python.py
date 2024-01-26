@@ -339,7 +339,7 @@ df_continents['Total'].plot(kind='pie',
                            shadow=True,
                            )
 
-plt.title('Immigration to Canada by Contnent from 10980 to 2013')
+plt.title('Immigration to Canada by Contnent from 1980 to 2013')
 plt.axis('equal')
 plt.legend(labels=+df_continents.index, loc='upper left', fontsize=7)
 
@@ -349,3 +349,48 @@ plt.show()
 ######## BOXPLOT
 ########
 ########
+df_CI= df_can.loc[['China', 'India'], years].transpose()
+
+df_japan= df_can.loc[['Japan'], years].transpose()
+df_japan.plot(kind='box', figsize=(8,6))
+
+plt.title('Box plot of Japanese Immigrants to Canada from 1980 to 2013')
+plt.ylabel('Number of immigrants')
+
+plt.show()
+
+df_japan.describe()
+                    
+#horizontal boxplot: add vert at the end of this line of code: df_japan.plot(kind='box', figsize=(8,6), vert=False)
+
+####SUBPLOTS: SEE more than one plot in the page
+
+fig = plt.figure() #create a figure
+ax0 = fig.add_subplot(1,2,1) #add subplot 1(1row, 2 columns, first plot)
+ax1 = fig.add_subplot(1,2,2) #add subplot 1(1row, 2 columns, second plot)
+
+#subplot 1: boxplot
+df_CI.plot(kind='box',figsize=(20,6), ax=ax0)
+ax0.set_title('Boxplot')
+ax0.set_xlabel('xlabel')
+ax0.set_ylabel('ylabel')
+
+#subplot 2: linechart
+df_CI.plot(kind='line',figsize=(20,6), ax=ax1)
+ax0.set_title('line chart')
+ax0.set_xlabel('xlabel')
+ax0.set_ylabel('ylabel')
+
+plt.show()
+
+#create alis of all years in decades 80s 90s 00s. Then sum.
+years_80= list(map(str, range(1980, 1990)))
+years_90= list(map(str, range(1990, 2000)))
+years_00= list(map(str, range(2000, 2010)))
+
+df_80 = df_top15.loc[:,years_80].sum(axis=1)
+df_90 = df_top15.loc[:,years_90].sum(axis=1)
+df_00 = df_top15.loc[:,years_00].sum(axis=1)
+
+ new_df = pd.DataFrame({'1980s':df_80, '1990s':df_90, '2000s':df_00})
+ new_df.head()
