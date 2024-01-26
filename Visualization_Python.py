@@ -183,7 +183,7 @@ df_can.set_index('Country', inplace=True)
 #create list of years from 1080-2013
 years= list(map(str, range(1980,2014)))
 
-######## AREA PLOT
+######## AREA PLOT (describe the MAGNITUD and PROPORTION)
 ########
 ########
 
