@@ -229,4 +229,38 @@ ax.set_xlabel('Years')
 ########
 ########
 
+#bin_edges is a list of bin intervals
+count, bin_edges = np.histogram(df_can['2013'])
 
+df_can['2013'].plot(kind='hist',figsize=(8,5), xticks = bin_edges)
+plt.title('Histogram of Immigration to Canada from 195 Countries in 2013')
+plt.ylabel('Number of Countries')
+plt.xlabel('Number of Immigrants')
+
+plt.show()
+
+# plot multiple histograms on the same plot
+
+df_t = df_can.loc['Denmark', 'Norway', 'Sweden'], years.transpose()
+
+df_t.plot(kind='hist',figsize=(10,6))
+plt.title('Histogram of Immigration from Denmark, Norway, and Sweden from 1980 - 2013')
+plt.ylabel('Number of Years')
+plt.xlabel('Number of Immigrants')
+
+plt.show()
+
+# improve the previous plot
+
+count, bin_edges = np.histogram(df_t, 15) #increase the bin size to 15
+
+df_t.plot(kind='hist',figsize=(10,6), bins = 15, alpha =0.6, xticks=bin_edges, color=['coral', 'darkslateblue', 'mediumseagreen'])
+plt.title('Histogram of Immigration from Denmark, Norway, and Sweden from 1980 - 2013')
+plt.ylabel('Number of Years')
+plt.xlabel('Number of Immigrants')
+
+plt.show()
+
+######## BAR CHARTS
+########
+########
