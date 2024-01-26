@@ -264,3 +264,28 @@ plt.show()
 ######## BAR CHARTS
 ########
 ########
+
+df_iceland = df_can.loc['Iceland', years]
+df_iceland.head()
+
+#next plot 
+df_iceland.plot(kind='bar', figsize=(10,6))
+
+plt.title('Icelandic immigrants to Canada from 10980 to 2013')
+plt.ylabel('Number of immigrants')
+plt.xlabel('Years')
+
+#annotate arrow
+plt.annotate('',
+              xy=(32,70),
+              xytext=(28,20),
+              xycoords='data',
+              arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='blue',lw=2)
+              
+#annotate text
+plt.annotate('2008-2011 Financial Crisis',
+             xy=(28,30),
+             rotation=72.5,
+             va='bottim',
+             ha='left,)
+plt.show()
