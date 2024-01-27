@@ -394,3 +394,86 @@ df_00 = df_top15.loc[:,years_00].sum(axis=1)
 
  new_df = pd.DataFrame({'1980s':df_80, '1990s':df_90, '2000s':df_00})
  new_df.head()
+
+
+######## SCATTER PLOT
+########
+########
+
+df_tot.plot(kind='scatter', x='year', y='total', figsize=(10,6), color='darkblue')
+
+plt.title('Total Immigration to Canada from 1980 to 2013')
+plt.xlabel('Years')
+plt.ylabel('Number of Immigrants')
+
+plt.show()
+
+#fit a linear line
+x= df_tot['year']
+y= df_tot['total']
+fit= np.polyfit(x,y, deg=1)
+fit
+
+df_tot.plot(kind='scatter', x='year', y='total', figsize=(10,6), color='darkblue')
+
+plt.title('Total Immigration to Canada from 1980 to 2013')
+plt.xlabel('Years')
+plt.ylabel('Number of Immigrants')
+
+plt.plot(x,fit[0] * x + fit[1], color = 'red')
+plt. annotate('y={0:.0f} x + {1:.0f}'.format(fit[0], fit[1], xy=(2000, 150000))
+
+plt.show()
+
+#create a scatterplot with totals for Denmark, Norway, Sweden
+#create dataframe
+df_countries = df_can.loc[['Denmark', 'Norway', 'Sweden'], years].transpose()
+#create df_total
+df_total = pd.DataFrame(df_countries.sum(axis=1))
+#reset index in place
+df_total.reset_index(inplace=True)
+#rename columns
+df_total.columns=['year', 'total']
+#change year form string to int
+df_total['year'] = df_total['year'].astype(int)
+df_total.head()
+
+df_total.plot(kind='scatter', x='year', y='total', figsize=(10,6), color='darkblue')
+
+plt.title('Total Immigration to Canada from 1980 to 2013: Denmark, Seweden, Norway')
+plt.xlabel('Years')
+plt.ylabel('Number of Immigrants')
+
+######## BUBBLE PLOT
+######## variation of scatter plot that displays three dimension data (x,y,z)
+########
+
+#normalize data
+norm_china = (df_can_t['China'] - df_can_t['China'].min()) / (df_can_t['China'].max() - df_can_t['China'].min())
+norm_india = (df_can_t['India'] - df_can_t['India'].min()) / (df_can_t['India'].max() - df_can_t['India'].min())
+
+#now plot
+#China
+ax0 = df_can_t.plot(kind='scatter',
+                    x='Year',
+                    y='China',
+                    figsize=(14,8),
+                    alpha=0.5,
+                    color='green',
+                    s=norm_china *2000+10,
+                    xlim=(1975,2015)
+                   )
+#Indian
+ax1 = df_can_t.plot(kind='scatter',
+                    x='Year',
+                    y='India',
+                    figsize=(14,8),
+                    alpha=0.5,
+                    color='blue',
+                    s=norm_india *2000+10,
+                    ax=ax0
+                   )
+
+ax0.set_ylabel('Number of Immigrants')
+ax0.set_title('Immigration from China and India from 1980 - 2013')
+ax0.legend(['China', 'India'], loc='upper left', fontsize='x-large')
