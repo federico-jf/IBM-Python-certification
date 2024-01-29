@@ -477,3 +477,70 @@ ax1 = df_can_t.plot(kind='scatter',
 ax0.set_ylabel('Number of Immigrants')
 ax0.set_title('Immigration from China and India from 1980 - 2013')
 ax0.legend(['China', 'India'], loc='upper left', fontsize='x-large')
+
+######## WAFFLE CHART
+######## 
+########
+
+!pip install pywaffle
+
+#import Waffle from pywaffle
+from pywaffle import Waffle
+
+#Set up the Waffle chart figure
+
+fig = plt.figure(FigureClass = Waffle,
+                 rows = 20, columns = 30, #number of rows and columns for the waffle
+                 values = df_dsn['Total'], #the data to be used for display
+                 cmap_name= 'tab20', #color scheme
+                 legend = {'labels': [f"{k} ({v})" for k, v in zip (df_dsn.index.values, df_dsn.Total)],
+                           'loc':'lower left', 'bbox_to_anchor':(0,-0,1), 'ncol':2}
+                  )
+plt.show
+
+#create a waffle chart to display the proportion of China and India total immigrant contribution
+
+df_CI=df_can.loc[['China', 'India'], :]
+fig = plt.figure(FigureClass = Waffle,
+                 rows = 20, columns = 30, 
+                 values = df_CI['Total'], 
+                 cmap_name= 'tab20', 
+                )
+plt.show
+
+######## WORD CLOUDS
+######## 
+########
+
+from wordcloud import WordClous, STOPWORDS
+
+import urllib
+#open file from url
+
+stopwords=set(STPWORDS)
+
+...
+
+######## REGRESSION PLOT
+######## 
+######## USE SEABORN! IT simplifies everything
+
+#call seaborn library
+   
+df_countries=df_can.loc[['Denmark', 'Norway', 'Sweden'], years].transpose()
+df_total=pd.DataFrame(df_countries.sum(axis=1))
+df_total.reset_index(inplace=True)
+df_total.columns=['year', 'total']
+df_total['year'] = df_total['year'].astype(int)
+
+plt.figure(figsize=(15,10))
+
+sns.set(font_scale=1.5)
+sns.set_style('whitegrid')
+
+ax=sns.regplot(x='year', y='total', data=df_total, color='green', marker='+', scatter_kws={'s':200})
+ax.set(xlabel='Year', ylabel='Total Immigration')
+ax.set_title('Total Immigration from Denmark, Sweden, and Norway to Canada from 1980 to 2013')
+
+                   
+          
