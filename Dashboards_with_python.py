@@ -187,6 +187,9 @@ lsof -i :8050
 sudo kill 8881
 
 
+#or you can  Press ctrl+c inside the terminal to stop the dash application.
+
+
 
 ############################################################# CREATE AN INTERACTIVE DASHBOARD WITH 5 GRAPS
 ############################################################# CREATE AN INTERACTIVE DASHBOARD WITH 5 GRAPS
