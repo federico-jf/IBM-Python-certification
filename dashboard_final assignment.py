@@ -8,7 +8,7 @@
 
 import dash
 from dash import dcc
-from dash import html
+from dash import html, ctx
 from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.graph_objs as go
@@ -54,7 +54,7 @@ app.layout = html.Div([
         )
     ]),
     html.Div(dcc.Dropdown(
-            id='select-year',
+            id='Select-year',
             options=[{'label': i, 'value': i} for i in year_list],
             value='1980',
             placeholder='Select a year',
@@ -72,7 +72,7 @@ app.layout = html.Div([
 # Define the callback function to update the input container based on the selected statistics
 @app.callback(
     Output(component_id='output-container', component_property='children'),
-    [Input(component_id='select-year', component_property='value'),
+    [Input(component_id='Select-year', component_property='value'),
      Input(component_id='dropdown-statistics', component_property='value')]
 )
 def update_output_container(selected_year, selected_statistic):
