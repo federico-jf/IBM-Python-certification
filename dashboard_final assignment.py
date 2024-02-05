@@ -5,6 +5,10 @@
 # coding: utf-8
 # In[ ]:
 
+#!/usr/bin/env python
+# coding: utf-8
+# In[ ]:
+
 
 import dash
 from dash import dcc
@@ -40,9 +44,7 @@ app.layout = html.Div([
         html.Label("Select Statistics:"),
         dcc.Dropdown(
             id='dropdown-statistics',
-            options=[{'label': 'Yearly Statistics', 'value': 'Yearly Statistics'},
-                    {'label': 'Recession Period Statistics', 'value': 'Recession Period Statistics'}
-                    ],
+            options='dropdown-statistics',
             placeholder='Select a report type',
             value='Select Statistics',
             style={
@@ -71,16 +73,29 @@ app.layout = html.Div([
 #TASK 2.4: Creating Callbacks
 # Define the callback function to update the input container based on the selected statistics
 @app.callback(
+    Output(component_id='Select-year', component_property='disabled'),
+    Input(component_id='dropdown-statistics', component_property='value'))
+
+def update_input_container(selected_statistic):
+    if selected_statistic == 'Yearly Statistics':
+        return False
+    else:
+        return True
+
+#Callback for plotting
+# Define the callback function to update the input container based on the selected statistics
+@app.callback(
     Output(component_id='output-container', component_property='children'),
-    [Input(component_id='Select-year', component_property='value'),
-     Input(component_id='dropdown-statistics', component_property='value')]
-)
-def update_output_container(selected_year, selected_statistic):
-    if selected_statistic == 'Recession Period Statistics':
+    [Input(component_id='dropdown-statistics', component_property='value'),
+    Input(component_id='select-year', component_property='value')])
+
+
+def update_output_container(selected_statistics, input_year):
+    if selected_statistics == 'Recession Period Statistics':
         # Filter the data for recession periods
         recession_data = data[data['Recession'] == 1]
 
-       
+
 #TASK 2.5: Create and display graphs for Recession Report Statistics
 
 #Plot 1 Automobile sales fluctuate over Recession Period (year wise)
@@ -123,16 +138,14 @@ def update_output_container(selected_year, selected_statistic):
             ]
 
 # TASK 2.6: Create and display graphs for Yearly Report Statistics
- # Yearly Statistic Report Plots                             
-    #elif (input_year and selected_statistics=='Yearly Statistics') :
-        #yearly_data = data[data['Year'] == input_year]
+# Yearly Statistic Report Plots                             
+    elif (input_year and selected_statistics=='Yearly Statistics') :
+        yearly_data = data[data['Year'] == input_year]
 
-    elif (input_year and selected_statistic == 'Yearly Statistics'):
-        yearly_data = data[data['Year'] == input_year]                             
 #TASK 2.5: Creating Graphs Yearly data
                               
 #plot 1 Yearly Automobile sales using line chart for the whole period.
-        yas= data.groupby(data['Year'])['Automobile_Sales'].mean().reset_index()
+        yas= data.groupby('Year')['Automobile_Sales'].mean().reset_index()
         Y_chart1 = dcc.Graph(figure=px.line(yas, x='Year', y='Automobile_Sales',
                            title='Yearly Automobile Sales Over the Whole Period',
                            labels={'Automobile_Sales': 'Average Sales'}))
@@ -169,16 +182,3 @@ def update_output_container(selected_year, selected_statistic):
 # Run the Dash app
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
