@@ -4,14 +4,6 @@
 
 #!/usr/bin/env python
 # coding: utf-8
-# In[ ]:
-
-
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
 
 import dash
 from dash import dcc
@@ -30,7 +22,6 @@ app = dash.Dash(__name__)
 # Set the title of the dashboard
 app.title = "Automobile Statistics Dashboard"
 
-#---------------------------------------------------------------------------------
 # Create the dropdown menu options
 dropdown_options = [
     {'label': 'Yearly statistics', 'value': 'Yearly Statistics'},
@@ -38,14 +29,12 @@ dropdown_options = [
 ]
 # List of years 
 year_list = [i for i in range(1980, 2024, 1)]
-#---------------------------------------------------------------------------------------
+
 # Create the layout of the app
 app.layout = html.Div([
     #TASK 2.1 Add title to the dashboard
     html.H1("Automobile Sales Statistics Dashboard",#May include style for title
-                                style={'textAlign':'left', 
-                                        'color':'#503D36', 
-                                        'font-size':24}),
+                                style={'textAlign':'center', 'color':'#503D36', 'font-size':24}),
 
     html.Div([#TASK 2.2: Add two dropdown menus
         html.Label("Select Statistics:"),
@@ -90,7 +79,6 @@ def update_output_container(selected_statistics, input_year):
         recession_data = data[data['Recession'] == 1]
 
 #TASK 2.5: Creating Graphs for Recession data
-
 #Plot 1 Automobile sales fluctuate over Recession Period (year wise)
         # use groupby to create relevant data for plotting
         yearly_rec=recession_data.groupby('Year')['Automobile_Sales'].mean().reset_index()
@@ -116,12 +104,9 @@ def update_output_container(selected_statistics, input_year):
                     names='Vehicle_Type',
                     title="Total Expenditure by Vehicle Type"))
 
-
 # Plot 4 bar chart for the effect of unemployment rate on vehicle type and sales
 # Calculate the average sales and unemployment rate by vehicle type during recession periods
         avg_sales_unemployment = recession_data.groupby(['unemployment_rate', 'Vehicle_Type'])['Automobile_Sales'].mean().reset_index()
-
-# Create the bar chart using Plotly Express
         R_chart4 = dcc.Graph(
          figure=px.bar(
            avg_sales_unemployment,
@@ -161,8 +146,8 @@ def update_output_container(selected_statistics, input_year):
                                             title='Average Vehicles Sold by Vehicle Type in the year {}'.format(input_year)))
 
 # Total Advertisement Expenditure for each vehicle using pie chart
-        exp_data=yearly_data.groupby('Vehicle_Type')['Advertising_Expenditure'].sum().reset_index()
-        Y_chart4 = dcc.Graph(figure=px.pie(exp_data, 
+        expenditure=yearly_data.groupby('Vehicle_Type')['Advertising_Expenditure'].sum().reset_index()
+        Y_chart4 = dcc.Graph(figure=px.pie(expenditure, 
                                             values = 'Advertising_Expenditure', names='Vehicle_Type'))
 
 #TASK 2.6: Returning the graphs for displaying Yearly data
@@ -176,4 +161,4 @@ def update_output_container(selected_statistics, input_year):
 
 # Run the Dash app
 if __name__ == '__main__':
-    app.run_server(debug=True, port = 9030)
+    app.run_server(debug=True)
