@@ -67,9 +67,20 @@ print("Residual sum of squares (MSE): %.2f" % np.mean((test_y_ - test_y) **2))
 print("R2-score: %.2f" % r2_score(test_y - test_y_))
 
 
+#MULTIPLE REGRESSION
 
+regr= linear_model.LinearRegression()
+x = np.asanyarray(train[['ENGINESIZE', 'CYLINDERS', 'FUELCONSUMPTION_CITY', 'FUELCONSUMPTION_HWY']])
+y = np.asanyarray(train[['CO2EMISSIONS']])
 
+regr.fit(x,y)
+print('Coefficients: ', regr.coef_)
+y_ = regr.predict(test[['ENGINESIZE', 'CYLINDERS', 'FUELCONSUMPTION_CITY', 'FUELCONSUMPTION_HWY']])
+x = regr.predict(test[['ENGINESIZE', 'CYLINDERS', 'FUELCONSUMPTION_CITY', 'FUELCONSUMPTION_HWY']])
+y = np.asanyarray(test[['CO2EMISSIONS']])
 
+print("Residual sum of squares (MSE): %.2f"% np.mean((y_ - y) **2))
+print('Variance score: %.2f' % regr.score(x, y))
 
 
 
