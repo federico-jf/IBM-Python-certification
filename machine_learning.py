@@ -167,4 +167,78 @@ mean_acc
 print("The best accuracy was wiyth", mean_acc.max(), "with k= ", mean_acc.argmax()+1)
 
 
+######## DECISION TREES ##########
+######## DECISION TREES ##########
+######## DECISION TREES ##########
+######## DECISION TREES ##########
+######## DECISION TREES ##########
+######## DECISION TREES ##########
+######## DECISION TREES ##########
+######## DECISION TREES ##########
+
+
+#surpress warnings and call libraries
+def warn(*args, **kwargs):
+  pass
+import warnings
+warnings.warn = warn
+
+import sys
+import numpy as np
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+import sklearn.tree as tree
+
+#upload the data
+
+#check size of data 
+my_daya.shape
+
+#remove the column containin the target name 
+X= my_date[['Age', 'Sex', 'BP', 'Cholesterol', 'Na_to_K']].values
+X[0:5]
+
+#Since Sklearn decisions tree does not handle categorical variables, we can convert these variables to numerical values.
+from sklearn import preprocessing
+le_sex = preprocessing.LabelEncoder()
+le_sex.fit(['F','M'])
+X[:,1] = le_sex.transofm(X[:,1])
+
+#now fill the target variable
+y=my_data["Drug"]
+y[0:5]
+
+#setting up the decision tree
+from sklearn.model_selection import rain_test_split
+
+X_train, X_test, y_train, y_test =train_ytest_split(X,y, test_size=0.3, random_state=3)
+print('Train set:'. X_train.shape, y_train.shape)
+print('Test set:'. X_test.shape, y_test.shape)
+
+#modelling
+drugTree= DecisionTreeClassifier(criterion="entropy", max_depth=4)
+drugTree
+
+#fit
+drugTree.fit(X_train, y_train)
+
+#predict
+predTree = drugTree.predict(X_test)
+
+print(predTree [0:5])
+print(y_test [0:5])
+
+#Evaluation: near 1 is better than 0.
+from sklearn import metrics
+import matplotlib.pyplot as plt
+print("Decision Trees's Accuracy: ", metrics.accuracy_score(y_test, predTree))
+
+#visualize the tree
+!conda install -conda-forge pydotplus -y
+!conda install -conda-forge python-graphviz -y
+
+from sklearn.tree import export_graphviz
+export_graphviz(drugTree, out_file='tree.dot', filled=True, feature_names=['Age', 'Sex', BP', 'Cholesterol', 'Na_to_K'])
+!dot -Tpng tree.dot o- tree.npg
+
   
