@@ -151,4 +151,20 @@ print("Train set Accuracy K=6: ", metrics.accuracy_score(y_train, neigh.predict(
 print("Test set Accuracy K=6: ", metrics.accuracy_score(y_test, yhat))
 
 #BUT how to calculate the idead number of K?. We can calculate the accuracy of KNN for different values of K.
+ks=10
+mean_acc= np.zeros((Ks-1))
+std_acc= np.zeros((Ks-1))
 
+for n in range(1,Ks):
+  #train the model and predict
+  neigh=KNeighborsClassifier(n_neighbors=n).fit(X_train, y_train)
+  yhat=neigh.predict(X_test)
+  mean_acc[n-a] = metrics.accuracy_score(y_test, yhat)
+  
+  std_acc[n-1] = np.std(yhat==y_test)/np.sqrt(yhat.shape[0])
+mean_acc
+
+print("The best accuracy was wiyth", mean_acc.max(), "with k= ", mean_acc.argmax()+1)
+
+
+  
