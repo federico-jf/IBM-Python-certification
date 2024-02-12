@@ -82,6 +82,73 @@ y = np.asanyarray(test[['CO2EMISSIONS']])
 print("Residual sum of squares (MSE): %.2f"% np.mean((y_ - y) **2))
 print('Variance score: %.2f' % regr.score(x, y))
 
+#K-NEAREST NEIGHBORS
+#K-NEAREST NEIGHBORS 
+#K-NEAREST NEIGHBORS 
+#K-NEAREST NEIGHBORS 
+#K-NEAREST NEIGHBORS 
+#K-NEAREST NEIGHBORS 
+
+!pip install scikit-learn==0.23.1
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import pylab as pl
+import numpy as np
+from sklearn import preprocessing
+%matplotlib inline
+
+#open dataset
+
+#To use scikit-learn library, we have to convert the Pandas data frame to a Numpy array.
+X=df[['region', 'tenure', 'age', 'marital', 'gender']].values #.astype(float)
+X[0:5]
+
+#what are our labels?
+y=df['custcat'].values
+y=[0:5]
+
+#Normalize data: data standarization gives teh data zero mean and unit variance, it is good practice, 
+#especially for algorithms such as KNN which is based on the distance of data points
+
+X=preprocessing.StandardScaler().fit.(X).transform(X.astype(float))
+X[0:5]
+
+#Train / Test split
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test =train_ytest_split(X,y, test_size=0.2, random_state=4)
+print('Train set:'. X_train.shape, y_train.shape)
+print('Test set:'. X_test.shape, y_test.shape)
+
+#Classification: K-nearest neighbor
+
+from sklearn.neighbors import KneighborsClassifier
+
+#let's start with K=4
+k=4
+
+#train the model and predict
+neigh=KneighborsClassifier(n_neighbors=k).fit(X_train,y_train)
+neigh
+
+#we can use the model to make predictions on the test set
+
+yhat=neigh.predict(X_test)
+yhat[0:5]
+
+#accuracy evaluation using the accuracy classification score: calculates how closely the actual labels and predicted labels are matched in the test set.
+from sklearn import metrics
+print("Train set Accuracy K=4: ", metrics.accuracy_score(y_train, neigh.predict(X_train)))
+print("Test set Accuracy K=4: ", metrics.accuracy_score(y_test, yhat))
 
 
-  
+#Now test with K=6
+
+k=6
+neigh6=KneighborsClassifier(n_neighbors=k).fit(X_train,y_train)
+yhat6=neigh6.predict(X_test)
+print("Train set Accuracy K=6: ", metrics.accuracy_score(y_train, neigh.predict(X_train)))
+print("Test set Accuracy K=6: ", metrics.accuracy_score(y_test, yhat))
+
+#BUT how to calculate the idead number of K?. We can calculate the accuracy of KNN for different values of K.
+
