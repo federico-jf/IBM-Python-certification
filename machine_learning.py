@@ -241,4 +241,61 @@ from sklearn.tree import export_graphviz
 export_graphviz(drugTree, out_file='tree.dot', filled=True, feature_names=['Age', 'Sex', BP', 'Cholesterol', 'Na_to_K'])
 !dot -Tpng tree.dot o- tree.npg
 
-  
+####### CLUSTERING (UNSUPERVISED) WITH K-MEANS ########
+####### CLUSTERING (UNSUPERVISED) WITH K-MEANS ########
+####### CLUSTERING (UNSUPERVISED) WITH K-MEANS ########
+####### CLUSTERING (UNSUPERVISED) WITH K-MEANS ########
+####### CLUSTERING (UNSUPERVISED) WITH K-MEANS ########
+####### CLUSTERING (UNSUPERVISED) WITH K-MEANS ########
+####### CLUSTERING (UNSUPERVISED) WITH K-MEANS ########
+
+#surpress warnings and call libraries
+def warn(*args, **kwargs):
+  pass
+import warnings
+warnings.warn = warn
+
+import random
+import numpy as np
+import panda as pd
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
+%matplotlib inline
+
+
+#upload data
+
+#eliminate ctagorical variables becasue ther are not analyzed with K-Means
+df = cust_df.drop('Address', axis=1)
+df.head()
+
+#normalize data
+from sklearn.preprocessing import StandardScaler
+X= df.values[:,1:]
+X= np.nan_to_num(X)
+Clus_dataSet = StandardScaler().fit_transform(X)
+Clus_dataSet
+
+#modeling using 3 clusters
+clusterNum=3
+k_means = KMeans(unit = "k-means++", n_clusters = clusterNum, n_init=12)
+k_means.fit(X)
+labels=k_means.labels_
+print(labels)
+
+#assign the label to each row in the datframe
+df["Clus_km"] = labels
+df.head(5)
+
+#now chech the centroids values by averaging the features in each cluster
+#so we can infere the description of each cluster / we can create a profile for each cluster
+df.groupby('Clus_km').mean()
+
+#let's look at the distribution of customers based on their age and income
+area= np.pi * (X[:,1])**2
+plt.scatter(X[:,0],x[:,3], s=area, c=labels.astype(np.float), alpha=0.5)
+plt.xlabel('Age', fontsize=18)
+plt.ylabel('Income', fontsize=16)
+
+plt.show()
