@@ -72,3 +72,62 @@ and College_Enrollment = 4368;
 %sql SELECT community_area_number, community_area_name, hardship_index FROM CENSUS_DATA \
 WHERE community_area_number in \
 (select community_area_number from CHICAGO_PUBLIC_SCHOOLS_DATA order by College_Enrollment desc limit 1);
+
+
+
+
+############### FINAL ASSIGNMENT
+
+# Total number of crimes
+%sql SELECT count(*) FROM CHICAGO_CRIME_DATA;
+
+# List of community area names and numbers with per capita income less than 11000
+%sql SELECT COMMUNITY_AREA_NAME, COMMUNITY_AREA_NUMBER FROM CENSUS_DATA WHERE PER_CAPITA_INCOME <11000;
+
+# List all case numbers for crimes involving minors
+%sql SELECT CASE_NUMBER, DESCRIPTION FROM CHICAGO_CRIME_DATA where "PRIMARY_TYPE" = 'LIQUOR LAW VIOLATION';
+
+# List all kidnapping crimes involving a child
+%sql SELECT CASE_NUMBER, PRIMARY_TYPE, DESCRIPTION FROM CHICAGO_CRIME_DATA where "PRIMARY_TYPE" = 'KIDNAPPING' AND "DESCRIPTION" LIKE '%child%';
+
+# List the kind of crimes that were recorded at schools (No repetitions)
+
+%sql SELECT DISTINCT PRIMARY_TYPE FROM CHICAGO_CRIME_DATA WHERE LOCATION_DESCRIPTION LIKE '%SCHOOL%';
+
+# List the type of schools along with the average safety score for each type
+%sql SELECT "Elementary, Middle, or High School" AS School_Type, AVG(SAFETY_SCORE) AS Average_Safety_Score FROM CHICAGO_PUBLIC_SCHOOLS GROUP BY "Elementary, Middle, or High School";
+
+# List 5 community areas wiith highest % of households below poverty line
+%sql SELECT COMMUNITY_AREA_NAME, PERCENT_HOUSEHOLDS_BELOW_POVERTY FROM CENSUS_DATA order by PERCENT_HOUSEHOLDS_BELOW_POVERTY desc nulls last LIMIT 5;
+
+# Which community area is most crime prone? Display the community numer only
+%sql SELECT COMMUNITY_AREA_NUMBER FROM CHICAGO_CRIME_DATA GROUP BY COMMUNITY_AREA_NUMBER ORDER BY COUNT(*) DESC LIMIT 1;
+
+# Use subquery to find the name of the community area with highest hardship index
+%sql SELECT community_area_name FROM CHICAGO_PUBLIC_SCHOOLS_DATA 
+WHERE community_area_number IN 
+(SELECT community_area_number FROM CENSUS_DATA ORDER BY hardship_index DESC LIMIT 1);
+
+# or
+%sql SELECT community_area_name
+FROM CENSUS_DATA
+WHERE hardship_index = (
+    SELECT MAX(hardship_index)
+    FROM CENSUS_DATA
+);
+
+# Use subquery to find the name of the community area with most number of crimes
+
+%sql SELECT community_area_name
+FROM CENSUS_DATA
+WHERE community_area_number = (
+    SELECT community_area_number
+    FROM (
+        SELECT community_area_number, COUNT(*) AS num_crimes
+        FROM CHICAGO_CRIME_DATA
+        GROUP BY community_area_number
+        ORDER BY num_crimes DESC
+        LIMIT 1
+    ) AS subquery
+);
+
